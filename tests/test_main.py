@@ -9,3 +9,8 @@ def test_calculate():
     assert response.status_code == status.HTTP_201_CREATED
     assert response.json() == {"expression": "3 4 +", "result": 7}
 
+def test_export_csv():
+    response = client.get("/export/")
+    assert response.status_code == 200
+    assert "text/csv" in response.headers["content-type"]
+

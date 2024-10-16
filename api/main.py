@@ -5,9 +5,11 @@ from api.models import Base, Operation
 
 from api.database import engine,get_db
 from sqlalchemy.orm import Session
-
+import csv
 # Initialize DB
 Base.metadata.create_all(bind = engine)
+from io import StringIO
+from fastapi.responses import StreamingResponse
 
 # Initialize FastAPI
 app = FastAPI()
@@ -45,3 +47,18 @@ async def calculate(expression: str, db: db_dependency):
     db.add(operation)
     db.commit()
     return {"expression": expression, "result": result}
+
+
+# Route to download CSV
+@app.get("/export/", status_code=status.HTTP_200_OK)
+async def export_data(db: Session = Depends(get_db)):
+    operations = db.query(Operation).all()
+    
+    output = StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["ID", "Expression", "Result"])
+    for operation in operations:
+        writer.writerow([operation.id, operation.expression, operation.result])
+    
+    output.seek(0)
+    return StreamingResponse(output, media_type="text/csv", headers={"Content-Disposition": "attachment; filename=operations.csv"})
