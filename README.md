@@ -43,9 +43,9 @@ Now go to http://127.0.0.1:8000/docs.
 You will see the automatic interactive API documentation (provided by Swagger UI):
 
 ## Frontend
-Once the application is running, you can access the frontend by navigating to http://127.0.0.1:3000/.
+Once the application is running, you can access the frontend by navigating to http://127.0.0.1:3000.
 
-## FTesting the Application
+## Testing the Application
 To test the application, you can input an RPN expression in the frontend or through the API. For example, to add the numbers 3 and 4, enter the following expression:
 ```bash
 3 4 +
