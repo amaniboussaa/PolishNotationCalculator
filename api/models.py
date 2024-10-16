@@ -1,5 +1,5 @@
 from sqlalchemy import String, Boolean,Integer, Column,Float
-from database import Base
+from api.database import Base
 
 class Operation(Base):
     __tablename__ = 'operations'

@@ -1,12 +1,13 @@
 from fastapi import FastAPI, HTTPException, Depends, status
 from pydantic import BaseModel
 from typing import Annotated
-import models
-from database import engine, SessionLocal,get_db
+from api.models import Base, Operation
+
+from api.database import engine,get_db
 from sqlalchemy.orm import Session
 
 # Initialize DB
-models.Base.metadata.create_all(bind = engine)
+Base.metadata.create_all(bind = engine)
 
 # Initialize FastAPI
 app = FastAPI()
@@ -40,7 +41,7 @@ def read_root():
 @app.post("/calculate/",status_code=status.HTTP_201_CREATED)
 async def calculate(expression: str, db: db_dependency):
     result = evaluate_rpn(expression)
-    operation = models.Operation(expression=expression, result=result)
+    operation = Operation(expression=expression, result=result)
     db.add(operation)
     db.commit()
     return {"expression": expression, "result": result}

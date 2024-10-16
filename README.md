@@ -21,9 +21,14 @@ pip install -r requirements.txt
 ```
 ### 4. Run the Application
 ```bash
-uvicorn main:app --reload
+uvicorn api.main:app --reload
 ```
 ## Interactive API docs¶
 Now go to http://127.0.0.1:8000/docs.
 
 You will see the automatic interactive API documentation (provided by Swagger UI):
+
+## Test
+```bash
+pytest
+```
