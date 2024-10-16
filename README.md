@@ -6,7 +6,7 @@ A brief description of your project, its purpose, and what it does.
 ## Technologies Used
 
 - Python 3.11
-- FastAPI (or any other framework you're using)
+- FastAPI
 - MySQL
 - Docker
 - Docker Compose
