@@ -1,7 +1,4 @@
 # Reverse Polish Notation (RPN) Calculator API
-## Description
-
-A brief description of your project, its purpose, and what it does.
 
 ## Technologies Used
 
@@ -10,6 +7,7 @@ A brief description of your project, its purpose, and what it does.
 - MySQL
 - Docker
 - Docker Compose
+- React (for the frontend)
 ### Prerequisites
 - Docker
 - Docker Compose
@@ -43,6 +41,16 @@ docker-compose up --build
 Now go to http://127.0.0.1:8000/docs.
 
 You will see the automatic interactive API documentation (provided by Swagger UI):
+
+## Frontend
+Once the application is running, you can access the frontend by navigating to http://127.0.0.1:3000/.
+
+## FTesting the Application
+To test the application, you can input an RPN expression in the frontend or through the API. For example, to add the numbers 3 and 4, enter the following expression:
+```bash
+3 4 +
+```
+This expression will output the result of adding 3 and 4, which is 7.
 
 ### 4. Stopping the Application
 ```bash
