@@ -13,8 +13,9 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-  app:
-    build: .
+  backend:
+    build:
+      context: ./backend  # Specify the backend folder for the Python app
     ports:
       - "8000:8000"
     depends_on:
@@ -22,7 +23,24 @@ services:
     environment:
       URL_DATABASE: mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db/${MYSQL_DATABASE}
     volumes:
-      - ./api:/app/api
+      - ./backend:/app  # Map the backend code
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000  # Adjust to your FastAPI entrypoint
+
+  frontend:
+    build:
+      context: ./frontend  # Specify the frontend folder for the React app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    stdin_open: true
+    tty: true
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    volumes:
+      - ./frontend:/app  # Map the frontend code
+    working_dir: /app
+    command: npm start  # Command to start the React app
 
 volumes:
   mysql_data:

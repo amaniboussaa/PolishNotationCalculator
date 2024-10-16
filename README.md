@@ -10,7 +10,9 @@ A brief description of your project, its purpose, and what it does.
 - MySQL
 - Docker
 - Docker Compose
-
+### Prerequisites
+- Docker
+- Docker Compose
 ## Setup Instructions
 
 ### 1. Create the `.env` File
@@ -37,17 +39,18 @@ Make sure to customize the values as needed.
 ```bash
 docker-compose up --build
 ```
-
-### 4. Stopping the Application
-```bash
-docker-compose down
-```
 ## Interactive API docs
 Now go to http://127.0.0.1:8000/docs.
 
 You will see the automatic interactive API documentation (provided by Swagger UI):
 
+### 4. Stopping the Application
+```bash
+docker-compose down
+```
+
+
 ### 5. Running tests
 ```bash
-docker-compose run app pytest tests
+docker-compose run backend pytest tests
 ```

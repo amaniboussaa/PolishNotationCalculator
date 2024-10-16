@@ -6,6 +6,8 @@ from api.models import Base, Operation
 from api.database import engine,get_db
 from sqlalchemy.orm import Session
 import csv
+from fastapi.middleware.cors import CORSMiddleware
+
 # Initialize DB
 Base.metadata.create_all(bind = engine)
 from io import StringIO
@@ -13,6 +15,15 @@ from fastapi.responses import StreamingResponse
 
 # Initialize FastAPI
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins, change this to specific domains for production
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
 
 db_dependency = Annotated[Session,Depends(get_db)]
 
@@ -39,9 +50,15 @@ def evaluate_rpn(expression):
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
+    
+# Define a Pydantic model for the request body
+class ExpressionRequest(BaseModel):
+    expression: str  # This will define the expected structure of the request body
+
 
 @app.post("/calculate/",status_code=status.HTTP_201_CREATED)
-async def calculate(expression: str, db: db_dependency):
+async def calculate(request: ExpressionRequest, db: db_dependency):
+    expression = request.expression
     result = evaluate_rpn(expression)
     operation = Operation(expression=expression, result=result)
     db.add(operation)
